@@ -17,25 +17,27 @@ module.exports = (io) => {
 
         socket.handshake.cookies.userName = userName
 
-        io.to(room).emit('announce', `User ${userName} has joined the room`)
+        io.to(room).emit('announce', `User ${userName} has joined the room`, rooms[room].users)
     }
 
-    const chatMessage = function (message) {
+    const chatMessage = function (messages) {
         const socket = this
         const room = socket.handshake.query.room
 
-        const encryptedMessages = []
+        const encryptedMessages = messages
 
-        for (const user of rooms[room].users){
-            const nonce = sodium.randombytes_buf(sodium.crypto_secretbox_NONCEBYTES)
-            const encryptedMessage = sodium.crypto_box_easy({message: message, nonce: nonce, publicKey: user.publicKey, privateKey: privateKey})
+        // for (const user of rooms[room].users){
+        //     if (user.userName === socket.handshake.cookies.userName) continue
 
-            encryptedMessages.push({
-                userName: user.userName,
-                encryptedMessage: encryptedMessage,
-                nonce: nonce
-            })
-        }
+        //     const nonce = sodium.randombytes_buf(sodium.crypto_secretbox_NONCEBYTES)
+        //     const encryptedMessage = sodium.crypto_box_easy({message: message, nonce: nonce, publicKey: user.publicKey, privateKey: privateKey})
+
+        //     encryptedMessages.push({
+        //         userName: user.userName,
+        //         encryptedMessage: encryptedMessage,
+        //         nonce: nonce
+        //     })
+        // }
 
         socket.broadcast.to(room).emit('chat-message', encryptedMessages)
     }
@@ -45,10 +47,9 @@ module.exports = (io) => {
         const room = socket.handshake.query.room
 
         const userName = socket.handshake.cookies.userName
-
-        io.to(room).emit('announce', `User ${userName} has left the room`)
-
         rooms[room].users = rooms[room].users.filter(user => user.userName !== userName)
+
+        io.to(room).emit('announce', `User ${userName} has left the room`, rooms[room].users)
     }
 
     return {
