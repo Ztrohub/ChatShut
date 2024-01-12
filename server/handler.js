@@ -2,7 +2,7 @@ const { rooms } = require('./index')
 const { generateUsername } = require('unique-username-generator')
 
 module.exports = (io) => {
-    const joinRoom = function (room) {
+    const joinRoom = function () {
         const socket = this
         const room = socket.handshake.query.room
         socket.join(room)
