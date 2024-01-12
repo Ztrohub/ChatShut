@@ -1,0 +1,29 @@
+{
+  "name": "chatshut",
+  "version": "1.0.0",
+  "description": "A Secret Chatting Room",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ztrohub/ChatShut.git"
+  },
+  "author": "Lukas Budi, Fernando Natanael",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ztrohub/ChatShut/issues"
+  },
+  "homepage": "https://github.com/Ztrohub/ChatShut#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "libsodium-wrappers": "^0.7.13",
+    "nodemon": "^3.0.2",
+    "socket.io": "^4.7.3",
+    "unique-username-generator": "^1.2.0"
+  }
+}
